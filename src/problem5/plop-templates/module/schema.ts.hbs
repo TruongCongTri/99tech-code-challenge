@@ -1,0 +1,21 @@
+import { z } from 'zod';
+import { MESSAGES } from '@/constants/messages';
+import { FIELDS } from '@/constants/fields';
+
+export const create{{pascalCase name}}Schema = z.object({
+  body: z.object({
+    // TODO: Declare validation here (EG: name: z.string().min(1, MESSAGES.COMMON.VALIDATION.REQUIRED(FIELDS.NAME))
+  }),
+});
+
+export const update{{pascalCase name}}Schema = z.object({
+  body: z.object({
+    // TODO: Declare validation here (EG: name: z.string().min(1, MESSAGES.COMMON.VALIDATION.REQUIRED(FIELDS.NAME)).optional())
+  }),
+  params: z.object({
+    id: z.string({ required_error: MESSAGES.COMMON.VALIDATION.REQUIRED('ID') }), // adjust validation if using UUID/CUID
+  })
+});
+
+export type Create{{pascalCase name}}DTO = z.infer<typeof create{{pascalCase name}}Schema>['body'];
+export type Update{{pascalCase name}}DTO = z.infer<typeof update{{pascalCase name}}Schema>['body'];

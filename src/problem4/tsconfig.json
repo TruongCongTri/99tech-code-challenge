@@ -5,7 +5,7 @@
     "module": "ESNext",
     "moduleResolution": "bundler", // Allow to import with out extension .js/.ts
     "lib": ["ES2022"],
-    "types": ["node"],
+    "types": ["node", "jest"],
 
     /* 2. Paths Configuration */
     "rootDir": "./",
@@ -33,8 +33,10 @@
     /* 5. Emit Configuration */
     "sourceMap": true,
     "declaration": false,
-    "allowImportingTsExtensions": false
+    "allowImportingTsExtensions": false,
+
+    "ignoreDeprecations": "6.0"
   },
-  "include": ["index.ts"],
+  "include": ["index.ts", "index.test.ts"],
   "exclude": ["node_modules", "dist"]
 }

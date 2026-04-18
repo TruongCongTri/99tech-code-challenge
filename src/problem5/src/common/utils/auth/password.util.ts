@@ -1,9 +1,17 @@
+/**
+ * @file password.util.ts
+ * @description Cryptographic utility for secure password handling using BcryptJS.
+ * Handles salt-based hashing and timing-safe comparisons.
+ * @module Common/Utils
+ */
 import bcrypt from 'bcryptjs';
 import { env } from '../../configs/env';
 
 export const PasswordUtil = {
   /**
-   * Compare original password with its hash. Returns false if either is missing or if they don't match.
+   * @method compare
+   * @description Timing-safe comparison of a plain-text password against a hashed value.
+   * @returns {Promise<boolean>} True if match, false if no match or missing input.
    */
   compare: async (plainPassword?: string, hash?: string): Promise<boolean> => {
     if (!plainPassword || !hash) return false;
@@ -11,8 +19,10 @@ export const PasswordUtil = {
   },
 
   /**
-   * Hash password if it hasn't been hashed yet.
-   * Detect bcrypt hash by its prefix $2a$, $2b$, $2y$.
+   * @method hashIfNeeded
+   * @description Checks if a string is already a Bcrypt hash. If not, hashes it.
+   * This is an idempotent operation designed for use in Service layers or Prisma Middlewares.
+   * Detects hashes by standard bcrypt prefixes: $2a$, $2b$, or $2y$.
    */
   hashIfNeeded: async (password: string): Promise<string> => {
     if (
@@ -22,11 +32,11 @@ export const PasswordUtil = {
       password.startsWith('$2b$') ||
       password.startsWith('$2y$')
     ) {
-      // Already hashed or invalid input
+      // Input is either empty, invalid, or already contains a valid hash prefix
       return password;
     }
 
-    // Call env.BCRYPT_SALT_ROUNDS directly (Zod has ensured this is definitely a number >= 1)
+    // BCRYPT_SALT_ROUNDS is validated as a number >= 1 by the Env schema
     return bcrypt.hash(password, env.BCRYPT_SALT_ROUNDS);
   },
 };

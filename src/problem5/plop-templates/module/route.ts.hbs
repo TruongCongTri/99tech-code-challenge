@@ -5,6 +5,11 @@ import { create{{pascalCase name}}Schema, update{{pascalCase name}}Schema } from
 import { ENDPOINTS } from '@/constants/endpoints';
 import { getSlugSchema, getIDSchema } from '@/common/schemas/reusable.schema';
 
+/**
+ * @class {{pascalCase name}}Route
+ * @description Registers all RESTful endpoints, injects Zod validation middlewares,
+ * and maintains strict path precedence to prevent routing conflicts.
+ */
 export class {{pascalCase name}}Route {
   public router: Router;
   private readonly {{camelCase name}}Controller: {{pascalCase name}}Controller;

@@ -11,3 +11,52 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+// Define the exact actions your system allows to prevent rogue data insertion
+enum ActionType {
+  SLOT_SPIN
+  DAILY_LOGIN
+  REFERRAL
+  TOURNAMENT_WIN
+  MANUAL_ADJUSTMENT
+}
+
+/**
+ * 
+ * ENTITY: ScoreEvent (The Audit Ledger)
+ * 
+ * Purpose: Acts as the immutable source of truth for all point transactions.
+ * Every action that changes a user's score is logged here.
+ * Architecture: Optimized for sequential writes and complex fraud auditing.
+ */
+model ScoreEvent {
+  id            String   @id @default(uuid())
+  playerId      String
+  actionType    ActionType   
+  pointsAwarded Int
+  isFlagged     Boolean  @default(false)
+  metadata      Json?    // Flexible payload for game-specific data
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([playerId])
+  @@index([createdAt])
+  @@index([isFlagged])
+  @@index([actionType])
+}
+
+/**
+ * 
+ * ENTITY: PlayerScore (The Materialized View)
+ * 
+ * Purpose: Caches the aggregated total points for the Live Scoreboard.
+ * Architecture: Optimized for blazing fast, high-concurrency read operations.
+ */
+model PlayerScore {
+  playerId    String   @id 
+  totalPoints Int      @default(0)
+  updatedAt   DateTime @updatedAt
+
+  @@index([totalPoints(sort: Desc)]) 
+}

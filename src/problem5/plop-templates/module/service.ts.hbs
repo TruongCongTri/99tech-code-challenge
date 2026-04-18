@@ -4,6 +4,11 @@ import { AppError } from '@/common/errors/app.error';
 import { MESSAGES } from '@/constants/messages';
 import { RESOURCES } from '@/constants/resources';
 
+/**
+ * @class {{pascalCase name}}Service
+ * @description Orchestrates business logic, verifies entity existence before mutations, 
+ * and constructs standardized pagination metadata for the client layer.
+ */
 export class {{pascalCase name}}Service {
   private readonly {{camelCase name}}Repository: {{pascalCase name}}Repository;
 
@@ -12,7 +17,7 @@ export class {{pascalCase name}}Service {
   }
 
   /**
-   * Create new {{pascalCase name}}
+   * @description Create new {{pascalCase name}}
    */
   public async create(data: Create{{pascalCase name}}DTO) {
     // 1. Business logic
@@ -23,7 +28,7 @@ export class {{pascalCase name}}Service {
   }
 
   /**
-   * Get all {{pascalCase name}}
+   * @description Get all {{pascalCase name}}
    */
   public async getAll() {
     // TODO: Add filtering, pagination logic if needed
@@ -31,7 +36,7 @@ export class {{pascalCase name}}Service {
   }
 
   /**
-   * Get detail of {{pascalCase name}} by ID
+   * @description Get detail of {{pascalCase name}} by ID
    */
   public async getDetail(id: string) {
     const result = await this.{{camelCase name}}Repository.findById(id);
@@ -44,7 +49,7 @@ export class {{pascalCase name}}Service {
   }
 
   /**
-   * Update {{pascalCase name}} by ID
+   * @description Update {{pascalCase name}} by ID
    */
   public async update(id: string, data: Update{{pascalCase name}}DTO) {
     // 1. Verify existence
@@ -55,7 +60,7 @@ export class {{pascalCase name}}Service {
   }
 
   /**
-   * Delete {{pascalCase name}} by ID
+   * @description Delete {{pascalCase name}} by ID
    */
   public async delete(id: string) {
     // 1. Verify existence

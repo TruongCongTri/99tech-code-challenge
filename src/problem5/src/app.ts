@@ -1,3 +1,9 @@
+/**
+ * @file app.ts
+ * @description Core Express application configuration.
+ * Sets up security headers, CORS policies, request parsers, and global error handling.
+ * @module App
+ */
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
@@ -9,15 +15,21 @@ import v1Router from './routes/v1';
 
 const app = express();
 
-// Alert Express that it's behind a proxy (e.g., when deployed on platforms like Heroku, Vercel, etc.)
+/**
+ * --- PROXY CONFIGURATION ---
+ * Required for correct IP tracking and cookie security when behind 
+ * load balancers or platforms like Heroku/Vercel.
+ */
 app.set('trust proxy', 1);
 
-// Secure HTTP headers with Helmet
+/**
+ * --- SECURITY MIDDLEWARE ---
+ * Helmet: Sets secure HTTP headers to protect against common web vulnerabilities.
+ * CORS: Restricts cross-origin requests to the validated CLIENT_URL.
+ */
 app.use(helmet());
 
-// Config CORS to only allow requests from the FE URL defined in .env
 const whitelist = [env.CLIENT_URL];
-
 app.use(
   cors({
     origin: function (origin, callback) {
@@ -32,19 +44,30 @@ app.use(
   })
 );
 
-// Parse incoming request bodies (JSON and URL-encoded)
-app.use(express.json()); // read application/json
+/**
+ * --- REQUEST PARSING ---
+ */
+app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser()); // read cookies (needed for auth, sessions, etc.)
+app.use(cookieParser()); 
 
-// Health Check Route
+/**
+ * --- SYSTEM ROUTES ---
+ * Health Check: Used by monitoring tools and load balancers to verify uptime.
+ */
 app.get('/health', (_req: Request, res: Response) => {
   res.status(200).json({ status: 'OK', message: 'Demo API is running!' });
 });
 
+/**
+ * --- API ROUTES ---
+ */
 app.use(API_VERSION, v1Router);
 
-// global error handler
+/**
+ * --- ERROR HANDLING ---
+ * Must be mounted last to catch all errors bubbled up from routes and controllers.
+ */
 app.use(errorHandler);
 
 export default app;

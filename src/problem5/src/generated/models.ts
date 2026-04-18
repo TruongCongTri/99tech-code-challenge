@@ -8,4 +8,6 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/ScoreEvent'
+export type * from './models/PlayerScore'
 export type * from './commonInputTypes'

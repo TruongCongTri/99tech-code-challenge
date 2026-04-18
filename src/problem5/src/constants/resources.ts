@@ -1,17 +1,26 @@
-// Defines ALL entities/resources in the system
+/**
+ * @file resources.ts
+ * @description Defines all manageable entities (resources) in the system.
+ */
+
 export const RESOURCES = {
+  /* --- System --- */
   USER: 'User',
-  PRODUCT: 'Product',
-  CATEGORY: 'Category',
-  LESSON: 'Lesson',
-  PAYMENT: 'Payment',
+  SESSION: 'Login Session',
+
+  /* --- General --- */
   ROLE: 'Role',
   PERMISSION: 'Permission',
-  SESSION: 'Login Session',
   OTP: 'OTP Code',
   EMAIL: 'Email',
   SMS: 'SMS',
   ZALO: 'Zalo',
+
+  /* --- Score Event Module --- */
+  SCORE_EVENT: 'Score Event',
+  LIVE_SCOREBOARD: 'Live Scoreboard',
+  PLAYER_SCORE: 'Player Score',
+
 } as const;
 
 export type ResourceName = (typeof RESOURCES)[keyof typeof RESOURCES];

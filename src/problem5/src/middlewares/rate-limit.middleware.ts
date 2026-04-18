@@ -1,9 +1,18 @@
+/**
+ * @file rate-limit.middleware.ts
+ * @description Traffic control middleware to prevent API abuse.
+ * Configures window-based request limits using centralized APP_CONFIG.
+ * @module Middlewares/RateLimit
+ */
 import rateLimit from 'express-rate-limit';
 import { APP_CONFIG } from '../constants/app.constant';
 import { MESSAGES } from '../constants/messages';
 import { ERROR_CODES } from '../constants/error-codes';
 
-// 1. General limiter for all APIs (Prevent request spamming)
+/**
+ * @constant apiLimiter
+ * @description General protection for all endpoints to prevent resource exhaustion.
+ */
 export const apiLimiter = rateLimit({
   windowMs: APP_CONFIG.RATE_LIMIT.API_WINDOW_MINUTES * 60 * 1000, 
   max: APP_CONFIG.RATE_LIMIT.API_MAX_REQUESTS,
@@ -16,7 +25,10 @@ export const apiLimiter = rateLimit({
   legacyHeaders: false, 
 });
 
-// 2. Stricter limiter specifically for Auth routes (Prevent password guessing/OTP spamming)
+/**
+ * @constant authLimiter
+ * @description Strict protection for sensitive routes (Login, OTP, Password Reset).
+ */
 export const authLimiter = rateLimit({
   windowMs: APP_CONFIG.RATE_LIMIT.AUTH_WINDOW_MINUTES * 60 * 1000, 
   max: APP_CONFIG.RATE_LIMIT.AUTH_MAX_REQUESTS, 

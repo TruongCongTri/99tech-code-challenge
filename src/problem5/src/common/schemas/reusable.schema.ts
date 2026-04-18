@@ -1,11 +1,28 @@
+/**
+ * @file reusable.schema.ts
+ * @description Centralized Zod validation schemas for cross-module use.
+ * This file contains base pagination, resource filtering, and common parameter schemas (Slug, ID).
+ * @module Common/Schemas
+ */
 import { z } from 'zod';
 import { MESSAGES } from '@/constants/messages';
 import { FIELDS } from '@/constants/fields';
 import { APP_CONFIG, SORT_OPTIONS, TIMEFRAME_OPTIONS } from '@/constants/app.constant';
 
+/**
+ * @constant SLUG_REGEX
+ * @description Validates e-commerce slugs: lowercase alphanumeric segments separated by hyphens, 
+ * ending with a 13-digit Unix timestamp (e.g., "cool-product-name-1712345678901").
+ */
 const SLUG_REGEX = /^[a-z0-9]+(?:-[a-z0-9]+)*-[0-9]{13}$/;
 
-const paginationSchema = z.object({
+// 1. BASE UTILITY SCHEMAS
+
+/**
+ * @schema paginationSchema
+ * @description Standardized pagination validation. Coerces URL strings into integers.
+ */
+export const paginationSchema = z.object({
   page: z.coerce.number().int().min(1).default(APP_CONFIG.COMMON.PAGINATION.DEFAULT_PAGE),
   limit: z.coerce
     .number()
@@ -15,6 +32,10 @@ const paginationSchema = z.object({
     .default(APP_CONFIG.COMMON.PAGINATION.DEFAULT_LIMIT),
 });
 
+/**
+ * @schema getIDSchema
+ * @description Validates a single UUID identifier passed in request parameters.
+ */
 export const getProductsQuerySchema = z.object({
   query: paginationSchema
     .extend({
@@ -35,10 +56,14 @@ export const getProductsQuerySchema = z.object({
         }
         return true;
       },
-      { message: MESSAGES.VALIDATION.MIN_PRICE_INVALID, path: ['minPrice'] }
+      { message: MESSAGES.VALIDATION.MIN_VALUE_INVALID(FIELDS.PRICE), path: [FIELDS.PRICE] }
     ),
 });
 
+/**
+ * @schema getSlugSchema
+ * @description Validates a resource slug passed in request parameters using SLUG_REGEX.
+ */
 export const getSlugSchema = z.object({
   params: z.object({
     slug: z
@@ -48,6 +73,10 @@ export const getSlugSchema = z.object({
   }),
 });
 
+/**
+ * @schema getIDSchema
+ * @description Validates a single UUID identifier passed in request parameters.
+ */
 export const getIDSchema = z.object({
   params: z.object({
     id: z
@@ -57,50 +86,4 @@ export const getIDSchema = z.object({
   }),
 });
 
-export const getProductReviewsSchema = z.object({
-  params: z.object({
-    slug: z.string().trim().regex(SLUG_REGEX, { message: MESSAGES.VALIDATION.INVALID_FORMAT(FIELDS.SLUG)}),
-  }),
-  query: paginationSchema.extend({
-    rating: z.coerce.number().int().min(1).max(5).optional(),
-  }),
-});
 
-export const getSellersQuerySchema = z.object({
-  query: paginationSchema.extend({
-    sortBy: z.enum(SORT_OPTIONS.SELLER).default(SORT_OPTIONS.SELLER[0]), // popular
-  }),
-});
-
-export const getSellerSlugSchema = z.object({
-  params: z.object({
-    slug: z
-      .string({ message: MESSAGES.VALIDATION.MUST_BE_STRING(FIELDS.SLUG) })
-      .trim()
-      .regex(SLUG_REGEX, { message: MESSAGES.VALIDATION.INVALID_FORMAT(FIELDS.SLUG) }),
-  }),
-  query: getProductsQuerySchema.shape.query,
-});
-
-export const getCategoriesQuerySchema = z.object({
-  query: paginationSchema.extend({
-    sortBy: z.enum(SORT_OPTIONS.CATEGORY).default(SORT_OPTIONS.CATEGORY[0]), // popular
-  }),
-});
-
-export const getCategorySlugSchema = z.object({
-  params: z.object({
-    slug: z
-      .string({ message: MESSAGES.VALIDATION.MUST_BE_STRING(FIELDS.SLUG) })
-      .trim()
-      .regex(SLUG_REGEX, { message: MESSAGES.VALIDATION.INVALID_FORMAT(FIELDS.SLUG) }),
-  }),
-  query: getProductsQuerySchema.shape.query,
-});
-
-
-export type GetProductsQueryDTO = z.infer<typeof getProductsQuerySchema>['query'];
-export type GetSellersQueryDTO = z.infer<typeof getSellersQuerySchema>['query'];
-export type GetCategoriesQueryDTO = z.infer<typeof getCategoriesQuerySchema>['query'];
-
-export type getProductReviewsQueryDTO = z.infer<typeof getProductReviewsSchema>['query'];

@@ -1,8 +1,16 @@
+/**
+ * @file messages.ts
+ * @description Centralized message factory for the application.
+ * Provides consistent phrasing for success, error, and validation states.
+ */
 import { ResourceName } from './resources';
 import { FieldName } from './fields';
 
 export const MESSAGES = {
-  // COMMON MESSAGES (100% Reusable for future modules)
+  SERVER: {
+    CONFIGURE: (field: FieldName) => `Please configure ${field}.`,
+  },
+  // 1. COMMON CRUD MESSAGES
   COMMON: {
     SUCCESS: {
       CREATED: (resource: ResourceName) => `${resource} created successfully.`,
@@ -22,6 +30,7 @@ export const MESSAGES = {
       `Data already exists. Unique constraint violated on: ${field}`,
     RECORD_NOT_FOUND: 'Requested data not found in the system.',
   },
+  // 2. SECURITY & MIDDLEWARE
   MIDDLEWARE: {
     FORBIDDEN: 'You do not have permission to access this resource.',
     FORBIDDEN_OWNERSHIP: "You do not have permission to modify another user's data.",
@@ -31,6 +40,7 @@ export const MESSAGES = {
     API_SPAM: (minutes: number) => `Too many requests. Please try again in ${minutes} minutes.`,
     AUTH_SPAM: (minutes: number) => `Too many attempts. Please try again in ${minutes} minutes.`,
   },
+
   NOTIFICATION: {
     MISSING_ESMS_KEYS: 'eSMS Keys are not configured.',
     MISSING_ZALO_TOKEN: 'Zalo Access Token is not configured.',
@@ -40,7 +50,7 @@ export const MESSAGES = {
     ZALO_FAILED: 'Unable to send Zalo message at this time.',
   },
 
-  // ZOD VALIDATION MESSAGES (Shared across the FE project)
+  // 3. ZOD VALIDATION MESSAGES
   VALIDATION: {
     REQUIRED: (field: FieldName) => `${field} is required.`,
     MUST_BE_STRING: (field: FieldName) => `${field} must be a string.`,
@@ -53,7 +63,7 @@ export const MESSAGES = {
     ONLY_NUMBERS: (field: FieldName) => `${field} must contain only numbers.`,
     INVALID_UUID: (field: FieldName) => `${field} is not a valid UUID.`,
     INVALID_ENUM: (field: FieldName) => `Invalid ${field}.`,
-    MIN_PRICE_INVALID: 'Minimum price cannot be greater than maximum price.',
+    MIN_VALUE_INVALID: (field: FieldName) => `Minimum ${field} cannot be greater than maximum ${field}.`,
 
     // Auth Specific
     PASSWORD_UPPERCASE: 'Password must contain at least 1 uppercase letter.',
@@ -63,7 +73,7 @@ export const MESSAGES = {
     MISSING_COOKIE_TOKEN: 'Refresh Token not found in cookies.',
   },
 
-  // BUSINESS LOGIC MESSAGES (AUTH MODULE)
+  // 4. AUTH & BUSINESS LOGIC
   AUTH: {
     SUCCESS: {
       REGISTER: 'Registration successful. Please check your email to verify.',

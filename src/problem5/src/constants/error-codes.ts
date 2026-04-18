@@ -1,28 +1,19 @@
+/**
+ * @file error-codes.ts
+ * @description Unified internal error codes for client-side consumption.
+ * These codes allow frontends to show specific localized messages or trigger UI logic.
+ */
+
 export const ERROR_CODES = {
-  // Error codes that are generic and can be used across all modules
   COMMON: {
     INVALID_INPUT: 'INVALID_INPUT',
     FORBIDDEN: 'FORBIDDEN',
     FORBIDDEN_OWNERSHIP: 'FORBIDDEN_OWNERSHIP',
     VALIDATION_ERROR: 'VALIDATION_ERROR',
     INTERNAL_SERVER_ERROR: 'INTERNAL_SERVER_ERROR',
-  },
-  RATE_LIMIT: {
-    TOO_MANY_REQUESTS: 'TOO_MANY_REQUESTS',
-  },
-  DATABASE: {
-    UNIQUE_CONSTRAINT_VIOLATION: 'UNIQUE_CONSTRAINT_VIOLATION',
     RECORD_NOT_FOUND: 'RECORD_NOT_FOUND',
   },
-  NOTIFICATION: {
-    SEND_EMAIL_FAILED: 'SEND_EMAIL_FAILED',
-    SEND_SMS_FAILED: 'SEND_SMS_FAILED',
-    SEND_ZALO_FAILED: 'SEND_ZALO_FAILED',
-    MISSING_CONFIG: 'MISSING_CONFIG',
-    GATEWAY_REJECTED: 'GATEWAY_REJECTED',
-  },
 
-  // Error codes specific to certain modules
   AUTH: {
     EMAIL_EXISTS: 'EMAIL_EXISTS',
     ROLE_NOT_FOUND: 'ROLE_NOT_FOUND',
@@ -47,16 +38,32 @@ export const ERROR_CODES = {
     PASSWORD_MUST_BE_DIFFERENT: 'PASSWORD_MUST_BE_DIFFERENT',
   },
 
+  RATE_LIMIT: {
+    TOO_MANY_REQUESTS: 'TOO_MANY_REQUESTS',
+  },
+
+  DATABASE: {
+    UNIQUE_CONSTRAINT_VIOLATION: 'UNIQUE_CONSTRAINT_VIOLATION',
+  },
+
+  NOTIFICATION: {
+    SEND_EMAIL_FAILED: 'SEND_EMAIL_FAILED',
+    SEND_SMS_FAILED: 'SEND_SMS_FAILED',
+    SEND_ZALO_FAILED: 'SEND_ZALO_FAILED',
+    MISSING_CONFIG: 'MISSING_CONFIG',
+    GATEWAY_REJECTED: 'GATEWAY_REJECTED',
+  },
+
   // Future installments:
   // PRODUCT: { PRODUCT_NOT_PUBLISHED: 'PRODUCT_NOT_PUBLISHED' }
 } as const;
 
-// TRÍCH XUẤT TYPE TỰ ĐỘNG:
-// Bất kỳ mã lỗi nào được thêm vào cấu trúc trên đều sẽ tự động thuộc type ErrorCode này.
+/**
+ * @type ErrorCode
+ * @description Automatically extracted type from the ERROR_CODES object.
+ * Any code added to the object above is automatically included in this type.
+ */
 
-export type ErrorCode =
-  | (typeof ERROR_CODES.AUTH)[keyof typeof ERROR_CODES.AUTH]
-  | (typeof ERROR_CODES.COMMON)[keyof typeof ERROR_CODES.COMMON]
-  | (typeof ERROR_CODES.DATABASE)[keyof typeof ERROR_CODES.DATABASE]
-  | (typeof ERROR_CODES.NOTIFICATION)[keyof typeof ERROR_CODES.NOTIFICATION]
-  | (typeof ERROR_CODES.RATE_LIMIT)[keyof typeof ERROR_CODES.RATE_LIMIT];
+type DeepValue<T> = T extends Record<string, any> ? DeepValue<T[keyof T]> : T;
+
+export type ErrorCode = DeepValue<typeof ERROR_CODES>;

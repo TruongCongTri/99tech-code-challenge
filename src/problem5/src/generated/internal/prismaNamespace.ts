@@ -384,7 +384,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 
 
 export const ModelName = {
-
+  ScoreEvent: 'ScoreEvent',
+  PlayerScore: 'PlayerScore'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -400,10 +401,159 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: never
+    modelProps: "scoreEvent" | "playerScore"
     txIsolationLevel: TransactionIsolationLevel
   }
-  model: {}
+  model: {
+    ScoreEvent: {
+      payload: Prisma.$ScoreEventPayload<ExtArgs>
+      fields: Prisma.ScoreEventFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ScoreEventFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScoreEventPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ScoreEventFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+        }
+        findFirst: {
+          args: Prisma.ScoreEventFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScoreEventPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ScoreEventFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+        }
+        findMany: {
+          args: Prisma.ScoreEventFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScoreEventPayload>[]
+        }
+        create: {
+          args: Prisma.ScoreEventCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+        }
+        createMany: {
+          args: Prisma.ScoreEventCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ScoreEventCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScoreEventPayload>[]
+        }
+        delete: {
+          args: Prisma.ScoreEventDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+        }
+        update: {
+          args: Prisma.ScoreEventUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+        }
+        deleteMany: {
+          args: Prisma.ScoreEventDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ScoreEventUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ScoreEventUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScoreEventPayload>[]
+        }
+        upsert: {
+          args: Prisma.ScoreEventUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ScoreEventPayload>
+        }
+        aggregate: {
+          args: Prisma.ScoreEventAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateScoreEvent>
+        }
+        groupBy: {
+          args: Prisma.ScoreEventGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ScoreEventGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ScoreEventCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ScoreEventCountAggregateOutputType> | number
+        }
+      }
+    }
+    PlayerScore: {
+      payload: Prisma.$PlayerScorePayload<ExtArgs>
+      fields: Prisma.PlayerScoreFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PlayerScoreFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerScorePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PlayerScoreFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerScorePayload>
+        }
+        findFirst: {
+          args: Prisma.PlayerScoreFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerScorePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PlayerScoreFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerScorePayload>
+        }
+        findMany: {
+          args: Prisma.PlayerScoreFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerScorePayload>[]
+        }
+        create: {
+          args: Prisma.PlayerScoreCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerScorePayload>
+        }
+        createMany: {
+          args: Prisma.PlayerScoreCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PlayerScoreCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerScorePayload>[]
+        }
+        delete: {
+          args: Prisma.PlayerScoreDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerScorePayload>
+        }
+        update: {
+          args: Prisma.PlayerScoreUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerScorePayload>
+        }
+        deleteMany: {
+          args: Prisma.PlayerScoreDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PlayerScoreUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PlayerScoreUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerScorePayload>[]
+        }
+        upsert: {
+          args: Prisma.PlayerScoreUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PlayerScorePayload>
+        }
+        aggregate: {
+          args: Prisma.PlayerScoreAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePlayerScore>
+        }
+        groupBy: {
+          args: Prisma.PlayerScoreGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlayerScoreGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PlayerScoreCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PlayerScoreCountAggregateOutputType> | number
+        }
+      }
+    }
+  }
 } & {
   other: {
     payload: any
@@ -442,7 +592,165 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const ScoreEventScalarFieldEnum = {
+  id: 'id',
+  playerId: 'playerId',
+  actionType: 'actionType',
+  pointsAwarded: 'pointsAwarded',
+  isFlagged: 'isFlagged',
+  metadata: 'metadata',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
 
+export type ScoreEventScalarFieldEnum = (typeof ScoreEventScalarFieldEnum)[keyof typeof ScoreEventScalarFieldEnum]
+
+
+export const PlayerScoreScalarFieldEnum = {
+  playerId: 'playerId',
+  totalPoints: 'totalPoints',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PlayerScoreScalarFieldEnum = (typeof PlayerScoreScalarFieldEnum)[keyof typeof PlayerScoreScalarFieldEnum]
+
+
+export const SortOrder = {
+  asc: 'asc',
+  desc: 'desc'
+} as const
+
+export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
+export const QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+} as const
+
+export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
+
+
+export const NullsOrder = {
+  first: 'first',
+  last: 'last'
+} as const
+
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+
+/**
+ * Field references
+ */
+
+
+/**
+ * Reference to a field of type 'String'
+ */
+export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+    
+
+
+/**
+ * Reference to a field of type 'String[]'
+ */
+export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+/**
+ * Reference to a field of type 'ActionType'
+ */
+export type EnumActionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActionType'>
+    
+
+
+/**
+ * Reference to a field of type 'ActionType[]'
+ */
+export type ListEnumActionTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ActionType[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Int'
+ */
+export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+/**
+ * Reference to a field of type 'Int[]'
+ */
+export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+/**
+ * Reference to a field of type 'Json'
+ */
+export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+/**
+ * Reference to a field of type 'QueryMode'
+ */
+export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Float'
+ */
+export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+/**
+ * Reference to a field of type 'Float[]'
+ */
+export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
 
 /**
  * Batch Payload for updateMany & deleteMany & createMany
@@ -538,7 +846,10 @@ export type PrismaClientOptions = ({
    */
   comments?: runtime.SqlCommenterPlugin[]
 }
-export type GlobalOmitConfig = {}
+export type GlobalOmitConfig = {
+  scoreEvent?: Prisma.ScoreEventOmit
+  playerScore?: Prisma.PlayerScoreOmit
+}
 
 /* Types for Logging */
 export type LogLevel = 'info' | 'query' | 'warn' | 'error'

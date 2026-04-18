@@ -5,6 +5,11 @@ import { MESSAGES } from '@/constants/messages';
 import { RESOURCES } from '@/constants/resources';
 import { Create{{pascalCase name}}DTO, Update{{pascalCase name}}DTO } from './{{dashCase name}}.schema';
 
+/**
+ * @class {{pascalCase name}}Controller
+ * @description Bridges the Express HTTP layer and the underlying Service logic.
+ * Assumes a global async-error handler wrapper is active in the Express app.
+ */
 export class {{pascalCase name}}Controller {
   private readonly {{camelCase name}}Service: {{pascalCase name}}Service;
 
@@ -12,8 +17,9 @@ export class {{pascalCase name}}Controller {
     this.{{camelCase name}}Service = new {{pascalCase name}}Service();
   }
 
+
   /**
-   * Create new {{pascalCase name}}
+   * @description [POST] Extracts body and initiates event creation.
    */
   public create = async (req: Request, res: Response) => {
     // TODO: Add DTO type casting (EG: req.body as Create{{pascalCase name}}DTO)
@@ -29,7 +35,7 @@ export class {{pascalCase name}}Controller {
   };
 
   /**
-   * Get all {{pascalCase name}}
+   *  @description [GET] Get all {{pascalCase name}}
    */
   public getAll = async (req: Request, res: Response) => {
     const data = await this.{{camelCase name}}Service.getAll();
@@ -42,7 +48,7 @@ export class {{pascalCase name}}Controller {
   };
 
   /**
-   * Get details {{pascalCase name}}
+   * @description [GET] Get details {{pascalCase name}}
    */
   public getDetail = async (req: Request, res: Response) => {
     const id = req.params.id as string; 
@@ -57,7 +63,7 @@ export class {{pascalCase name}}Controller {
   };
 
   /**
-   * Update {{pascalCase name}}
+   *  @description [PATCH] Update {{pascalCase name}}
    */
   public update = async (req: Request, res: Response) => {
     const id = req.params.id as string;
@@ -73,7 +79,7 @@ export class {{pascalCase name}}Controller {
   };
 
   /**
-   * Delete {{pascalCase name}}
+   * @description [DELETE] Delete {{pascalCase name}}
    */
   public delete = async (req: Request, res: Response) => {
     const id = req.params.id as string; 

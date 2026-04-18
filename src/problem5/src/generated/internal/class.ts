@@ -20,7 +20,7 @@ const config: runtime.GetPrismaClientConfig = {
   "clientVersion": "7.7.0",
   "engineVersion": "75cbdc1eb7150937890ad5465d861175c6624711",
   "activeProvider": "postgresql",
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Get a free hosted Postgres database in seconds: `npx create-db`\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Get a free hosted Postgres database in seconds: `npx create-db`\n\ngenerator client {\n  provider = \"prisma-client\"\n  output   = \"../src/generated\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nenum ActionType {\n  SLOT_SPIN\n  DAILY_LOGIN\n  REFERRAL\n  TOURNAMENT_WIN\n  MANUAL_ADJUSTMENT\n}\n\nmodel ScoreEvent {\n  id            String     @id @default(uuid())\n  playerId      String\n  actionType    ActionType\n  pointsAwarded Int\n  isFlagged     Boolean    @default(false)\n  metadata      Json? // Flexible payload for game-specific data\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  // Indexes for faster querying on the admin dashboard\n  @@index([playerId])\n  @@index([createdAt])\n  @@index([isFlagged])\n  @@index([actionType])\n}\n\nmodel PlayerScore {\n  playerId    String   @id\n  totalPoints Int      @default(0)\n  updatedAt   DateTime @updatedAt\n\n  @@index([totalPoints(sort: Desc)])\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -32,10 +32,10 @@ const config: runtime.GetPrismaClientConfig = {
   }
 }
 
-config.runtimeDataModel = JSON.parse("{\"models\":{},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"ScoreEvent\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"playerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"actionType\",\"kind\":\"enum\",\"type\":\"ActionType\"},{\"name\":\"pointsAwarded\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isFlagged\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"metadata\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null},\"PlayerScore\":{\"fields\":[{\"name\":\"playerId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"totalPoints\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 config.parameterizationSchema = {
-  strings: JSON.parse("[]"),
-  graph: "AAAA"
+  strings: JSON.parse("[\"where\",\"ScoreEvent.findUnique\",\"ScoreEvent.findUniqueOrThrow\",\"orderBy\",\"cursor\",\"ScoreEvent.findFirst\",\"ScoreEvent.findFirstOrThrow\",\"ScoreEvent.findMany\",\"data\",\"ScoreEvent.createOne\",\"ScoreEvent.createMany\",\"ScoreEvent.createManyAndReturn\",\"ScoreEvent.updateOne\",\"ScoreEvent.updateMany\",\"ScoreEvent.updateManyAndReturn\",\"create\",\"update\",\"ScoreEvent.upsertOne\",\"ScoreEvent.deleteOne\",\"ScoreEvent.deleteMany\",\"having\",\"_count\",\"_avg\",\"_sum\",\"_min\",\"_max\",\"ScoreEvent.groupBy\",\"ScoreEvent.aggregate\",\"PlayerScore.findUnique\",\"PlayerScore.findUniqueOrThrow\",\"PlayerScore.findFirst\",\"PlayerScore.findFirstOrThrow\",\"PlayerScore.findMany\",\"PlayerScore.createOne\",\"PlayerScore.createMany\",\"PlayerScore.createManyAndReturn\",\"PlayerScore.updateOne\",\"PlayerScore.updateMany\",\"PlayerScore.updateManyAndReturn\",\"PlayerScore.upsertOne\",\"PlayerScore.deleteOne\",\"PlayerScore.deleteMany\",\"PlayerScore.groupBy\",\"PlayerScore.aggregate\",\"AND\",\"OR\",\"NOT\",\"playerId\",\"totalPoints\",\"updatedAt\",\"equals\",\"in\",\"notIn\",\"lt\",\"lte\",\"gt\",\"gte\",\"not\",\"contains\",\"startsWith\",\"endsWith\",\"id\",\"ActionType\",\"actionType\",\"pointsAwarded\",\"isFlagged\",\"metadata\",\"createdAt\",\"string_contains\",\"string_starts_with\",\"string_ends_with\",\"array_starts_with\",\"array_ends_with\",\"array_contains\",\"set\",\"increment\",\"decrement\",\"multiply\",\"divide\"]"),
+  graph: "XxUgCywAAEwAMC0AAAQAEC4AAEwAMC8BAD8AITFAAEEAIT0BAAAAAT8AAE0_IkACAEAAIUEgAE4AIUIAAE8AIENAAEEAIQEAAAABACABAAAAAQAgCywAAEwAMC0AAAQAEC4AAEwAMC8BAD8AITFAAEEAIT0BAD8AIT8AAE0_IkACAEAAIUEgAE4AIUIAAE8AIENAAEEAIQFCAABYACADAAAABAAgAwAABQAwBAAAAQAgAwAAAAQAIAMAAAUAMAQAAAEAIAMAAAAEACADAAAFADAEAAABACAILwEAAAABMUAAAAABPQEAAAABPwAAAD8CQAIAAAABQSAAAAABQoAAAAABQ0AAAAABAQgAAAkAIAgvAQAAAAExQAAAAAE9AQAAAAE_AAAAPwJAAgAAAAFBIAAAAAFCgAAAAAFDQAAAAAEBCAAACwAwAQgAAAsAMAgvAQBVACExQABXACE9AQBVACE_AABePyJAAgBWACFBIABfACFCgAAAAAFDQABXACECAAAAAQAgCAAADgAgCC8BAFUAITFAAFcAIT0BAFUAIT8AAF4_IkACAFYAIUEgAF8AIUKAAAAAAUNAAFcAIQIAAAAEACAIAAAQACACAAAABAAgCAAAEAAgAwAAAAEAIA8AAAkAIBAAAA4AIAEAAAABACABAAAABAAgBhUAAFkAIBYAAFoAIBcAAF0AIBgAAFwAIBkAAFsAIEIAAFgAIAssAABCADAtAAAXABAuAABCADAvAQA0ACExQAA2ACE9AQA0ACE_AABDPyJAAgA1ACFBIABEACFCAABFACBDQAA2ACEDAAAABAAgAwAAFgAwFAAAFwAgAwAAAAQAIAMAAAUAMAQAAAEAIAYsAAA-ADAtAAAdABAuAAA-ADAvAQAAAAEwAgBAACExQABBACEBAAAAGgAgAQAAABoAIAYsAAA-ADAtAAAdABAuAAA-ADAvAQA_ACEwAgBAACExQABBACEAAwAAAB0AIAMAAB4AMAQAABoAIAMAAAAdACADAAAeADAEAAAaACADAAAAHQAgAwAAHgAwBAAAGgAgAy8BAAAAATACAAAAATFAAAAAAQEIAAAiACADLwEAAAABMAIAAAABMUAAAAABAQgAACQAMAEIAAAkADADLwEAVQAhMAIAVgAhMUAAVwAhAgAAABoAIAgAACcAIAMvAQBVACEwAgBWACExQABXACECAAAAHQAgCAAAKQAgAgAAAB0AIAgAACkAIAMAAAAaACAPAAAiACAQAAAnACABAAAAGgAgAQAAAB0AIAUVAABQACAWAABRACAXAABUACAYAABTACAZAABSACAGLAAAMwAwLQAAMAAQLgAAMwAwLwEANAAhMAIANQAhMUAANgAhAwAAAB0AIAMAAC8AMBQAADAAIAMAAAAdACADAAAeADAEAAAaACAGLAAAMwAwLQAAMAAQLgAAMwAwLwEANAAhMAIANQAhMUAANgAhDhUAADgAIBgAAD0AIBkAAD0AIDIBAAAAATMBAAAABDQBAAAABDUBAAAAATYBAAAAATcBAAAAATgBAAAAATkBADwAIToBAAAAATsBAAAAATwBAAAAAQ0VAAA4ACAWAAA7ACAXAAA4ACAYAAA4ACAZAAA4ACAyAgAAAAEzAgAAAAQ0AgAAAAQ1AgAAAAE2AgAAAAE3AgAAAAE4AgAAAAE5AgA6ACELFQAAOAAgGAAAOQAgGQAAOQAgMkAAAAABM0AAAAAENEAAAAAENUAAAAABNkAAAAABN0AAAAABOEAAAAABOUAANwAhCxUAADgAIBgAADkAIBkAADkAIDJAAAAAATNAAAAABDRAAAAABDVAAAAAATZAAAAAATdAAAAAAThAAAAAATlAADcAIQgyAgAAAAEzAgAAAAQ0AgAAAAQ1AgAAAAE2AgAAAAE3AgAAAAE4AgAAAAE5AgA4ACEIMkAAAAABM0AAAAAENEAAAAAENUAAAAABNkAAAAABN0AAAAABOEAAAAABOUAAOQAhDRUAADgAIBYAADsAIBcAADgAIBgAADgAIBkAADgAIDICAAAAATMCAAAABDQCAAAABDUCAAAAATYCAAAAATcCAAAAATgCAAAAATkCADoAIQgyCAAAAAEzCAAAAAQ0CAAAAAQ1CAAAAAE2CAAAAAE3CAAAAAE4CAAAAAE5CAA7ACEOFQAAOAAgGAAAPQAgGQAAPQAgMgEAAAABMwEAAAAENAEAAAAENQEAAAABNgEAAAABNwEAAAABOAEAAAABOQEAPAAhOgEAAAABOwEAAAABPAEAAAABCzIBAAAAATMBAAAABDQBAAAABDUBAAAAATYBAAAAATcBAAAAATgBAAAAATkBAD0AIToBAAAAATsBAAAAATwBAAAAAQYsAAA-ADAtAAAdABAuAAA-ADAvAQA_ACEwAgBAACExQABBACELMgEAAAABMwEAAAAENAEAAAAENQEAAAABNgEAAAABNwEAAAABOAEAAAABOQEAPQAhOgEAAAABOwEAAAABPAEAAAABCDICAAAAATMCAAAABDQCAAAABDUCAAAAATYCAAAAATcCAAAAATgCAAAAATkCADgAIQgyQAAAAAEzQAAAAAQ0QAAAAAQ1QAAAAAE2QAAAAAE3QAAAAAE4QAAAAAE5QAA5ACELLAAAQgAwLQAAFwAQLgAAQgAwLwEANAAhMUAANgAhPQEANAAhPwAAQz8iQAIANQAhQSAARAAhQgAARQAgQ0AANgAhBxUAADgAIBgAAEsAIBkAAEsAIDIAAAA_AjMAAAA_CDQAAAA_CDkAAEo_IgUVAAA4ACAYAABJACAZAABJACAyIAAAAAE5IABIACEPFQAARgAgGAAARwAgGQAARwAgMoAAAAABNYAAAAABNoAAAAABN4AAAAABOIAAAAABOYAAAAABRAEAAAABRQEAAAABRgEAAAABR4AAAAABSIAAAAABSYAAAAABCDICAAAAATMCAAAABTQCAAAABTUCAAAAATYCAAAAATcCAAAAATgCAAAAATkCAEYAIQwygAAAAAE1gAAAAAE2gAAAAAE3gAAAAAE4gAAAAAE5gAAAAAFEAQAAAAFFAQAAAAFGAQAAAAFHgAAAAAFIgAAAAAFJgAAAAAEFFQAAOAAgGAAASQAgGQAASQAgMiAAAAABOSAASAAhAjIgAAAAATkgAEkAIQcVAAA4ACAYAABLACAZAABLACAyAAAAPwIzAAAAPwg0AAAAPwg5AABKPyIEMgAAAD8CMwAAAD8INAAAAD8IOQAASz8iCywAAEwAMC0AAAQAEC4AAEwAMC8BAD8AITFAAEEAIT0BAD8AIT8AAE0_IkACAEAAIUEgAE4AIUIAAE8AIENAAEEAIQQyAAAAPwIzAAAAPwg0AAAAPwg5AABLPyICMiAAAAABOSAASQAhDDKAAAAAATWAAAAAATaAAAAAATeAAAAAATiAAAAAATmAAAAAAUQBAAAAAUUBAAAAAUYBAAAAAUeAAAAAAUiAAAAAAUmAAAAAAQAAAAAAAUoBAAAAAQVKAgAAAAFLAgAAAAFMAgAAAAFNAgAAAAFOAgAAAAEBSkAAAAABAAAAAAAAAUoAAAA_AgFKIAAAAAEAAAAABRUABhYABxcACBgACRkACgAAAAAABRUABhYABxcACBgACRkACgAAAAUVABAWABEXABIYABMZABQAAAAAAAUVABAWABEXABIYABMZABQBAgECAwEFBgEGBwEHCAEJCgEKDAILDQMMDwENEQIOEgQREwESFAETFQIaGAUbGQscGwwdHAweHwwfIAwgIQwhIwwiJQIjJg0kKAwlKgImKw4nLAwoLQwpLgIqMQ8rMhU"
 }
 
 async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Module> {
@@ -70,8 +70,8 @@ export interface PrismaClientConstructor {
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more ScoreEvents
+   * const scoreEvents = await prisma.scoreEvent.findMany()
    * ```
    * 
    * Read more in our [docs](https://pris.ly/d/client).
@@ -94,8 +94,8 @@ export interface PrismaClientConstructor {
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more ScoreEvents
+ * const scoreEvents = await prisma.scoreEvent.findMany()
  * ```
  * 
  * Read more in our [docs](https://pris.ly/d/client).
@@ -188,7 +188,25 @@ export interface PrismaClient<
     extArgs: ExtArgs
   }>>
 
-    
+      /**
+   * `prisma.scoreEvent`: Exposes CRUD operations for the **ScoreEvent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more ScoreEvents
+    * const scoreEvents = await prisma.scoreEvent.findMany()
+    * ```
+    */
+  get scoreEvent(): Prisma.ScoreEventDelegate<ExtArgs, { omit: OmitOpts }>;
+
+  /**
+   * `prisma.playerScore`: Exposes CRUD operations for the **PlayerScore** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PlayerScores
+    * const playerScores = await prisma.playerScore.findMany()
+    * ```
+    */
+  get playerScore(): Prisma.PlayerScoreDelegate<ExtArgs, { omit: OmitOpts }>;
 }
 
 export function getPrismaClientClass(): PrismaClientConstructor {

@@ -17,4 +17,13 @@ import * as Prisma from './internal/prismaNamespaceBrowser'
 export { Prisma }
 export * as $Enums from './enums'
 export * from './enums';
-
+/**
+ * Model ScoreEvent
+ * 
+ */
+export type ScoreEvent = Prisma.ScoreEventModel
+/**
+ * Model PlayerScore
+ * 
+ */
+export type PlayerScore = Prisma.PlayerScoreModel

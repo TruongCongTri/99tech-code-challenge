@@ -1,3 +1,9 @@
+/**
+ * @file error-handler.middleware.ts
+ * @description Global error handling middleware for Express.
+ * Categorizes and formats Zod, Prisma, and custom AppErrors into a unified JSON structure.
+ * @module Middlewares/Error
+ */
 import { Request, Response, NextFunction } from 'express';
 import { z, ZodError } from 'zod';
 import { AppError } from '../common/errors/app.error';
@@ -11,7 +17,7 @@ export const errorHandler = (
   res: Response,
   _next: NextFunction 
 ) => {
-  // 1. Handle Zod validation errors (from validate middleware)
+  // 1. ZOD VALIDATION ERRORS
   if (
     err instanceof ZodError ||
     (err && typeof err === 'object' && 'name' in err && err.name === 'ZodError')
@@ -36,7 +42,7 @@ export const errorHandler = (
     });
   }
 
-  // 2. Handle business errors (AppError thrown from Service)
+  // 2. CUSTOM BUSINESS ERRORS (AppError)
   if (err instanceof AppError) {
     return errorResponse(res, {
       statusCode: err.statusCode,
@@ -45,7 +51,7 @@ export const errorHandler = (
     });
   }
 
-  // 3. Handle Prisma errors (equivalent to TypeORM QueryFailedError)
+  // 3. PRISMA DATABASE ERRORS
   const prismaErr = err as {
     constructor?: { name: string };
     code?: string;
@@ -55,7 +61,7 @@ export const errorHandler = (
     prismaErr?.constructor?.name === 'PrismaClientKnownRequestError' ||
     prismaErr?.code?.startsWith('P')
   ) {
-    // P2002 Code: Duplicate value for unique field
+    // P2002: Unique constraint failed
     if (prismaErr.code === 'P2002') {
       const targetField = (prismaErr.meta?.target as string[])?.join(', ') || 'field';
 
@@ -66,17 +72,17 @@ export const errorHandler = (
       });
     }
 
-    // P2025 Code: Cannot find record(s) to update or delete
+    // P2025: Record not found
     if (prismaErr.code === 'P2025') {
       return errorResponse(res, {
         statusCode: 404,
         message: MESSAGES.SYSTEM.RECORD_NOT_FOUND,
-        error_code: ERROR_CODES.DATABASE.RECORD_NOT_FOUND,
+        error_code: ERROR_CODES.COMMON.RECORD_NOT_FOUND,
       });
     }
   }
 
-  // 4. Handle unknown system errors
+  // 4. UNKNOWN SYSTEM ERRORS (Fallback)
   console.error('[SERVER ERROR]:', err);
   return errorResponse(res, {
     statusCode: 500,

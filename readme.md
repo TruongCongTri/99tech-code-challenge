@@ -20,6 +20,28 @@ This repository is divided into three distinct challenges, located within the `s
 
 ---
 
+## Quick Start for Reviewers (Root Execution)
+
+To save you time, this repository is configured so you can install dependencies and run the test suites for all problems directly from the root directory.
+
+**1. Install all dependencies across all problems:**
+```bash
+npm run install:all
+```
+
+**2. Run the tests:**
+```bash
+# Run all tests sequentially
+npm run test:all
+
+# OR run them individually from the root
+npm run test:p4
+npm run test:p5
+```
+(Note: Problem 5 requires a PostgreSQL database. Please ensure your .env.test is configured in src/problem5 and the schema is pushed before running test:p5 or test:all. See the Problem 5 README for DB setup details).
+
+---
+
 ## Global Tech Stack Highlights
 * **Core:** Node.js, Express.js, TypeScript
 * **Data:** PostgreSQL, Prisma ORM, Redis

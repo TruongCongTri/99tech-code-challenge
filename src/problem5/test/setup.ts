@@ -6,16 +6,16 @@ import path from 'node:path';
 dotenv.config({ path: path.resolve(process.cwd(), '.env.test') });
 
 export default async () => {
-  console.log('\n🚀 Preparing Test Database...');
+  console.log('\nPreparing Test Database...');
 
   // 2. Sync the schema to the test database
   // Using 'db push' is faster for tests than 'migrate deploy'
   try {
     execSync('npx prisma db push --accept-data-loss', { stdio: 'inherit' });
     
-    console.log('✅ Test Database schema is in sync.\n');
+    console.log('Test Database schema is in sync.\n');
   } catch (error) {
-    console.error('❌ Failed to sync Test Database schema:', error);
+    console.error('Failed to sync Test Database schema:', error);
     process.exit(1);
   }
 };

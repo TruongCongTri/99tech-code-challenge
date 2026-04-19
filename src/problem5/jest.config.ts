@@ -2,7 +2,7 @@ import type { JestConfigWithTsJest } from 'ts-jest';
 
 const config: JestConfigWithTsJest = {
   preset: 'ts-jest/presets/default-esm', 
-  globalSetup: '<rootDir>/tests/setup.ts',
+  globalSetup: '<rootDir>/test/setup.ts',
   testEnvironment: 'node',
   extensionsToTreatAsEsm: ['.ts'], 
   

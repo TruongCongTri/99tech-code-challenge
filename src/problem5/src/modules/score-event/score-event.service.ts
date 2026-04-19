@@ -10,6 +10,7 @@ import { AppError } from '@/common/errors/app.error';
 import { MESSAGES } from '@/constants/messages';
 import { RESOURCES } from '@/constants/resources';
 import { PaginationMetaDto } from '@/data/dtos/pagination.dto';
+import { APP_CONFIG } from '@/constants/app.constant';
 
 /**
  * @class ScoreEventService
@@ -27,7 +28,11 @@ export class ScoreEventService {
    * @description Processes the creation of a new score event.
    */
   public async create(data: CreateScoreEventDTO) {
-    return await this.scoreEventRepository.createWithTransaction(data);
+    const isFlagged = data.pointsAwarded > APP_CONFIG.SCORE_EVENT.MAX_POINT;
+    return await this.scoreEventRepository.createWithTransaction({
+      ...data,
+      isFlagged,
+    });
   }
 
   /**

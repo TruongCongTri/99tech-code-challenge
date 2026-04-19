@@ -28,9 +28,7 @@ export class ScoreEventRepository extends BaseRepository<Prisma.ScoreEventDelega
    * @param data - The validated event payload
    * @returns The created audit record
    */
-  public async createWithTransaction(data: CreateScoreEventDTO) {
-    const isFlagged = data.pointsAwarded > APP_CONFIG.SCORE_EVENT.MAX_POINT;
-
+  public async createWithTransaction(data: CreateScoreEventDTO & { isFlagged: boolean }) {
     return await prisma.$transaction(async (tx) => {
       const event = await tx.scoreEvent.create({
         data: {
@@ -38,12 +36,12 @@ export class ScoreEventRepository extends BaseRepository<Prisma.ScoreEventDelega
           actionType: data.actionType,
           pointsAwarded: data.pointsAwarded,
           metadata: data.metadata ? data.metadata : undefined, 
-          isFlagged: isFlagged 
+          isFlagged: data.isFlagged 
         },
       });
 
       // Maintain CQRS state: Only update the live leaderboard if the event is legitimate
-      if (!isFlagged) {
+      if (!data.isFlagged) {
         await tx.playerScore.upsert({
           where: { playerId: data.playerId },
           update: { totalPoints: { increment: data.pointsAwarded } },

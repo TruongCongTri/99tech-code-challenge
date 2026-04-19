@@ -26,8 +26,8 @@ export class ScoreEventController {
   /**
    * @description [POST] Extracts body and initiates event creation.
    */
-  public create = async (req: Request, res: Response) => {
-    const payload = req.body as CreateScoreEventDTO; 
+  public create = async (req: Request<unknown, unknown, CreateScoreEventDTO, unknown>, res: Response) => {
+    const payload = req.body; 
     const result = await this.scoreEventService.create(payload);
 
     successResponse(res, {
@@ -40,8 +40,8 @@ export class ScoreEventController {
   /**
    * @description [GET] Extracts validated query and fetches the Audit Ledger.
    */
-  public getAll = async (req: Request, res: Response) => {
-    const filters = req.query as unknown as GetScoreEventsQueryDTO;
+  public getAll = async (req: Request<unknown, unknown, unknown, GetScoreEventsQueryDTO>, res: Response) => {
+    const filters = req.query;
     const result = await this.scoreEventService.getAll(filters);
 
     successResponse(res, {
@@ -55,8 +55,8 @@ export class ScoreEventController {
   /**
    * @description [GET] Extracts validated query and fetches the Live Scoreboard.
    */
-  public getLiveScoreboard = async (req: Request, res: Response) => {
-    const filters = req.query as unknown as GetScoreboardQueryDTO;
+  public getLiveScoreboard = async (req: Request<unknown, unknown, unknown, GetScoreboardQueryDTO>, res: Response) => {
+    const filters = req.query;
     const result = await this.scoreEventService.getLiveScoreboard(filters);
 
     successResponse(res, {
@@ -70,8 +70,8 @@ export class ScoreEventController {
   /**
    * @description [GET] Get details ScoreEvent
    */
-  public getDetail = async (req: Request, res: Response) => {
-    const id = req.params.id as string; 
+  public getDetail = async (req: Request<{ id: string }, unknown, unknown, unknown>, res: Response) => {
+    const id = req.params.id; 
     
     const result = await this.scoreEventService.getDetail(id);
 
@@ -85,9 +85,9 @@ export class ScoreEventController {
   /**
    * @description [PATCH] Update ScoreEvent
    */
-  public update = async (req: Request, res: Response) => {
-    const id = req.params.id as string;
-    const payload = req.body as UpdateScoreEventDTO;
+  public update = async (req: Request<{ id: string }, unknown, UpdateScoreEventDTO, unknown>, res: Response) => {
+    const id = req.params.id;
+    const payload = req.body;
 
     const result = await this.scoreEventService.update(id, payload);
 
@@ -101,8 +101,8 @@ export class ScoreEventController {
   /**
    * @description [DELETE] Delete ScoreEvent
    */
-  public delete = async (req: Request, res: Response) => {
-    const id = req.params.id as string; 
+  public delete = async (req: Request<{ id: string }, unknown, unknown, unknown>, res: Response) => {
+    const id = req.params.id; 
     
     await this.scoreEventService.delete(id);
 

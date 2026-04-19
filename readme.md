@@ -1,10 +1,29 @@
-# 99Tech Code Challenge #1 #
+# 99Tech Backend Engineering Assessment
 
-Note that if you fork this repository, your responses may be publicly linked to this repo.  
-Please submit your application along with the solutions attached or linked.   
+Welcome to my technical submission for the **Backend Engineer (Fully Remote)** position at **99tech.co**.
 
-It is important that you minimally attempt the problems, even if you do not arrive at a working solution.
+## Repository Overview
 
-## Submission ##
-You can either provide a link to an online repository, attach the solution in your application, or whichever method you prefer.
-We're cool as long as we can view your solution without any pain.
+This repository is divided into three distinct challenges, located within the `src/` directory. Each problem folder contains its own dedicated `README.md` with specific installation and execution instructions.
+
+### [Problem 4: Three Ways to Sum to N](./src/problem4)
+* **Focus:** Algorithmic thinking, Big O complexity, and testing.
+* **Description:** Three distinct TypeScript implementations (Mathematical, Iterative, and Recursive) to solve a summation problem. The module is strictly typed and verified by a comprehensive Jest test suite.
+
+### [Problem 5: A Crude Server](./src/problem5)
+* **Focus:** API Development, Data Integrity, and Enterprise Architecture.
+* **Description:** A production-ready RESTful CRUD server built with Express and Prisma. It features strict Zod runtime validation, ACID-compliant database transactions to synchronize audit logs with a materialized view, automated Plop.js scaffolding, and an isolated integration testing environment.
+
+### [Problem 6: Scoreboard Architecture](./src/problem6)
+* **Focus:** System Design, Distributed Systems, and Security (Anti-Cheat).
+* **Description:** A comprehensive architectural specification for a live leaderboard module. It details a high-performance execution flow using PostgreSQL for permanent auditing, a Redis Sorted Set (`ZSET`) for sub-millisecond ranking tie-breakers, and a distributed WebSocket backplane for real-time client hydration.
+
+---
+
+## Global Tech Stack Highlights
+* **Core:** Node.js, Express.js, TypeScript
+* **Data:** PostgreSQL, Prisma ORM, Redis
+* **Validation & Security:** Zod, JWT, HMAC Signatures
+* **Testing:** Jest, Supertest
+
+Thank you for your time and consideration in reviewing this repository. I have structured the code, architecture, and documentation to reflect the exact engineering standards and attention to detail I would bring to the team at 99tech.co.

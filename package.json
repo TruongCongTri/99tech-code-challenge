@@ -6,6 +6,7 @@
   "scripts": {
     "install:all": "npm install --prefix src/problem4 && npm install --prefix src/problem5",
     "test:p4": "npm test --prefix src/problem4",
+    "test:p5:setup": "cd src/problem5 && npx dotenv -e .env.test -- npm run db:migrate",
     "test:p5": "npm run test:integration --prefix src/problem5",
     "test:all": "npm run test:p4 && npm run test:p5"
   }

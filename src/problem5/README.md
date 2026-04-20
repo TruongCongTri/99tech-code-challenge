@@ -81,7 +81,7 @@ npm run install
 ### 2. Run Database Migrations:
 Synchronize the Prisma schema with your development database:
 ```bash
-npx prisma generate
+npm run db:migrate
 ```
 
 ### 3. Seed the Database (Optional):

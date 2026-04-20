@@ -29,6 +29,14 @@ To save you time, this repository is configured so you can install dependencies 
 npm run install:all
 ```
 
+**2. Setup the Problem 5 Test Database:**
+Problem 5 uses an isolated PostgreSQL database for integration testing. Please ensure you have configured your `.env.test` file inside `src/problem5/` (refer to `src/problem5/.env.test.example`). Then, push the schema to the test database:
+```bash
+# Navigate to problem 5, push the schema to the test DB, and return to root
+cd src/problem5 && npx dotenv -e .env.test -- npm run db:migrate && cd ../..
+```
+
+
 **2. Run the tests:**
 ```bash
 # Run all tests sequentially

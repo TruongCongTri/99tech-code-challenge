@@ -14,7 +14,12 @@ import type * as Prisma from "../internal/prismaNamespace"
 
 /**
  * Model PlayerScore
- * 
+ * *
+ *  * 
+ *  * ENTITY: PlayerScore (The Materialized View)
+ *  * 
+ *  * Purpose: Caches the aggregated total points for the Live Scoreboard.
+ *  * Architecture: Optimized for blazing fast, high-concurrency read operations.
  */
 export type PlayerScoreModel = runtime.Types.Result.DefaultSelection<Prisma.$PlayerScorePayload>
 

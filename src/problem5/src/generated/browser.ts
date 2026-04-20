@@ -19,11 +19,22 @@ export * as $Enums from './enums'
 export * from './enums';
 /**
  * Model ScoreEvent
- * 
+ * *
+ *  * 
+ *  * ENTITY: ScoreEvent (The Audit Ledger)
+ *  * 
+ *  * Purpose: Acts as the immutable source of truth for all point transactions.
+ *  * Every action that changes a user's score is logged here.
+ *  * Architecture: Optimized for sequential writes and complex fraud auditing.
  */
 export type ScoreEvent = Prisma.ScoreEventModel
 /**
  * Model PlayerScore
- * 
+ * *
+ *  * 
+ *  * ENTITY: PlayerScore (The Materialized View)
+ *  * 
+ *  * Purpose: Caches the aggregated total points for the Live Scoreboard.
+ *  * Architecture: Optimized for blazing fast, high-concurrency read operations.
  */
 export type PlayerScore = Prisma.PlayerScoreModel

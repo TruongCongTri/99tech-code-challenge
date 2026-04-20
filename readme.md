@@ -30,14 +30,18 @@ npm run install:all
 ```
 
 **2. Setup the Problem 5 Test Database:**
-Problem 5 uses an isolated PostgreSQL database for integration testing. Please ensure you have configured your `.env.test` file inside `src/problem5/` (refer to `src/problem5/.env.test.example`). Then, push the schema to the test database:
+Problem 5 uses an isolated PostgreSQL database for integration testing.
+
+* Ensure you have created a `.env.test` file inside `src/problem5/` (refer to `src/problem5/.env.test.example`).
+
+Run the setup script from the root to push the schema to your test database:
+
 ```bash
-# Navigate to problem 5, push the schema to the test DB, and return to root
-cd src/problem5 && npx dotenv -e .env.test -- npm run db:migrate && cd ../..
+npm run test:p5:setup
 ```
 
-
-**2. Run the tests:**
+**3. Run the tests:**
+You can run all tests across the entire assessment with a single command, or target specific problems:
 ```bash
 # Run all tests sequentially
 npm run test:all
@@ -46,7 +50,6 @@ npm run test:all
 npm run test:p4
 npm run test:p5
 ```
-(Note: Problem 5 requires a PostgreSQL database. Please ensure your .env.test is configured in src/problem5 and the schema is pushed before running test:p5 or test:all. See the Problem 5 README for DB setup details).
 
 ---
 
